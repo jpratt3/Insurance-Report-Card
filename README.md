@@ -134,6 +134,90 @@ other letter in the book.
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart TB
+  MW{"middleware.ts<br/>role split on every request"}
+
+  subgraph intake ["Intake"]
+    Setup["PM setup<br/>P&L, balance sheet,<br/>cash flow, board pack"]
+    Portal["Company portal<br/>SOI, exposure pack,<br/>loss runs, EMR, COI"]
+  end
+
+  subgraph extract ["Extraction, cheapest layer first"]
+    Parsers["financials.ts, soi.ts, exposures.ts<br/>CSV, XLSX, SpreadsheetML, PDF text"]
+    Ladder["fromCsv, then fromFreeText, then fromLlm, else none<br/>every value tagged with the method that produced it"]
+    LLM["Model<br/>last resort, inputs only, never the score"]
+  end
+
+  Record[("Company record, data/db.json<br/>figures with their source rows, policy lines,<br/>exposures, and the bar the PM set")]
+
+  subgraph engine ["score.ts, pure and deterministic"]
+    Refs["benchmarks.ts, provenance-wrapped bands<br/>rubric.ts, 8 archetypes and the maxSir formula"]
+    Pillars["7 pillars, 100 points"]
+    KO["6 knockouts<br/>cap the letter at D or F"]
+    Conf["dataConfidence<br/>unverified inputs, provisional flag"]
+  end
+
+  PMOut["PM session reads<br/>letter, pillar scores, knockouts, talking points"]
+  CFOOut["Company session reads<br/>checklist and receipt, nothing else"]
+  Wall["403 on the book endpoint, and no score, letter<br/>or pillar field in any company-session payload"]
+
+  MW -->|pm| Setup
+  MW -->|cfo| Portal
+
+  Setup --> Parsers
+  Portal --> Parsers
+  Parsers --> Ladder
+  Ladder -.->|deterministic path returned empty| LLM
+
+  Ladder --> Record
+  LLM -.-> Record
+  Setup -->|the bar| Record
+
+  Record --> Pillars
+  Refs --> Pillars
+  Pillars --> KO
+  KO --> Conf
+
+  Conf --> PMOut
+  Conf --> Wall
+  Wall --x CFOOut
+  Portal --> CFOOut
+
+  classDef mwC fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e
+  classDef intakeC fill:#ede9fe,stroke:#6d28d9,color:#4c1d95
+  classDef extractC fill:#fef3c7,stroke:#b45309,color:#78350f
+  classDef recordC fill:#dcfce7,stroke:#15803d,color:#14532d
+  classDef engineC fill:#ffe4e6,stroke:#be123c,color:#881337
+  classDef outC fill:#f1f5f9,stroke:#475569,color:#1e293b
+  classDef wallC fill:#fee2e2,stroke:#b91c1c,color:#7f1d1d
+  class MW mwC
+  class Setup,Portal intakeC
+  class Parsers,Ladder,LLM extractC
+  class Record recordC
+  class Refs,Pillars,KO,Conf engineC
+  class PMOut,CFOOut outC
+  class Wall wallC
+```
+
+Three things in that picture are the whole design.
+
+**The model sits off to the side.** It is reachable only when a deterministic parser
+returns empty, it writes into the company record, and there is no path from it to
+`score.ts`. The grade is arithmetic over the record, so the same record always
+produces the same letter.
+
+**Every value carries the method that produced it.** A figure read off a clean CSV
+and a figure a model inferred from PDF sludge are both numbers in the same field, and
+the only thing that distinguishes them is the tag travelling alongside. Without it,
+`dataConfidence` could not tell the PM which parts of a B are evidence.
+
+**The grade stops at the engine.** It reaches a PM session and nothing else. That is
+enforced at the endpoint rather than in the template, which is why the company portal
+has no grade to hide.
+
 ## Why a rubric rather than a broker opinion
 
 A broker's read on a program is one person's judgment, delivered verbally, and it
@@ -267,24 +351,6 @@ market observation.
 
 The PM creates the company. The CFO fills the gaps. Nobody retypes a number that
 appears in a document they already uploaded.
-
-```
-PM setup                            CFO portal
-  P&L, balance sheet            →     missing-items checklist
-  cash flow, board pack               exposure pack, SOV, EMR worksheet
-      |  financials.ts                 contract exhibits, loss runs
-      v                                    |  exposures.ts
-  cash / EBITDA / revenue                  v
-      |                              headcount, vehicles, TIV,
-      v                              contractual minimums, EMR
-  set goals and SIR                        |
-      |                                    |
-      v                                    v
-  schedule of insurance --> soi.ts --> policy lines
-                                           |
-                                           v
-                                   score.ts -> letter + flags
-```
 
 **Extraction is layered, and the cheap layer runs first.** `soi.ts` reads CSV,
 XLSX (unzipping the sheet XML directly, no library), SpreadsheetML, and PDF text
