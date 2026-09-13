@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+
+# Binary. PDFs carry byte offsets in their xref table and XLSX is a zip:
+# line-ending conversion corrupts both.
+*.pdf binary
+*.xlsx binary
+*.png binary

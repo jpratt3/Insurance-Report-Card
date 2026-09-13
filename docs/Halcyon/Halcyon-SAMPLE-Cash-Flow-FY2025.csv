@@ -1,0 +1,27 @@
+SAMPLE,NOT LIVE FINANCIALS,FOR INTERNAL DEMO ONLY
+Legal name,"Halcyon Device Services, Inc."
+d/b/a,Halcyon Device Services
+Entity,"Halcyon Device Services, Inc."
+HQ,"5601 NW 72nd Street, Suite 3, Warr Acres, OK 73132"
+Statement,Consolidated statement of cash flows
+Period,Year ended December 31, 2025
+Basis,Unaudited internal reporting pack
+Currency,USD
+
+Line,FY2024,FY2025
+Net income,"$2,050,000","$2,500,000"
+Depreciation and amortization,"$720,000","$800,000"
+Change in working capital,"-$410,000","-$180,000"
+Cash from operations,"$2,360,000","$3,120,000"
+Capital expenditures,"-$640,000","-$900,000"
+Cash from investing,"-$640,000","-$900,000"
+Debt borrowings repayments net,"-$220,000","-$220,000"
+Member distributions,"-$900,000","-$1,400,000"
+Cash from financing,"-$1,120,000","-$1,620,000"
+Net change in cash,"$600,000","$600,000"
+Cash beginning of year,"$1,800,000","$2,400,000"
+Cash end of year,"$2,400,000","$3,000,000"
+
+Key figures for report card,Value
+Cash end of year,"$3,000,000"
+Note,SAMPLE — not live Halcyon Device Services or ABC results. Optional PM setup slot.

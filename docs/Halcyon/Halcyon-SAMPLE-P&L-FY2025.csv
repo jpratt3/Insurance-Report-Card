@@ -1,0 +1,28 @@
+SAMPLE,NOT LIVE FINANCIALS,FOR INTERNAL DEMO ONLY
+Legal name,"Halcyon Device Services, Inc."
+d/b/a,Halcyon Device Services
+Entity,"Halcyon Device Services, Inc."
+HQ,"5601 NW 72nd Street, Suite 3, Warr Acres, OK 73132"
+Statement,Consolidated statement of operations (income statement / P&L)
+Period,Year ended December 31, 2025
+Basis,Unaudited internal reporting pack
+Currency,USD
+
+Line,FY2024,FY2025
+Net program revenue,"$35,100,000","$38,000,000"
+Cost of services — field technicians parts and vendors,"-$21,400,000","-$22,800,000"
+Gross profit,"$13,700,000","$15,200,000"
+Selling general and administrative,"-$8,800,000","-$9,400,000"
+Software and platform,"-$1,100,000","-$1,300,000"
+EBITDA,"$3,800,000","$4,500,000"
+Depreciation and amortization,"-$720,000","-$800,000"
+Operating income,"$3,080,000","$3,700,000"
+Interest expense,"-$380,000","-$400,000"
+Income before tax,"$2,700,000","$3,300,000"
+Income tax expense,"-$650,000","-$800,000"
+Net income,"$2,050,000","$2,500,000"
+
+Key figures for report card,Value
+Revenue,"$38,000,000"
+EBITDA,"$4,500,000"
+Note,SAMPLE figures for ABC Insurance Report Card intake testing. Not audited. Not live Halcyon Device Services or ABC results.

@@ -1,0 +1,31 @@
+SAMPLE,NOT LIVE FINANCIALS,FOR INTERNAL DEMO ONLY
+Legal name,"Halcyon Device Services, Inc."
+d/b/a,Halcyon Device Services
+Entity,"Halcyon Device Services, Inc."
+HQ,"5601 NW 72nd Street, Suite 3, Warr Acres, OK 73132"
+Statement,Consolidated balance sheet
+Period,As of December 31, 2025
+Basis,Unaudited internal reporting pack
+Currency,USD
+
+Line,12/31/2024,12/31/2025
+Cash and cash equivalents,"$2,400,000","$3,000,000"
+Accounts receivable,"$3,900,000","$4,200,000"
+Inventory and service parts,"$950,000","$1,100,000"
+Prepaid and other current assets,"$380,000","$400,000"
+Total current assets,"$7,630,000","$8,700,000"
+Property and equipment net,"$2,600,000","$2,800,000"
+Software and other intangibles,"$1,200,000","$1,500,000"
+Total assets,"$11,430,000","$13,000,000"
+Accounts payable,"$1,600,000","$1,800,000"
+Accrued compensation and other,"$1,100,000","$1,200,000"
+Current portion of debt,"$400,000","$500,000"
+Total current liabilities,"$3,100,000","$3,500,000"
+Long-term debt,"$3,200,000","$3,000,000"
+Total liabilities,"$6,300,000","$6,500,000"
+Members equity,"$5,130,000","$6,500,000"
+Total liabilities and equity,"$11,430,000","$13,000,000"
+
+Key figures for report card,Value
+Cash,"$3,000,000"
+Note,Cash is cash and cash equivalents. SAMPLE — not live Halcyon Device Services or ABC results.

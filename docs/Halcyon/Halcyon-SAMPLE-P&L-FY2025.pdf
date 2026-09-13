@@ -1,0 +1,92 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1437 >>
+stream
+BT
+/F1 9 Tf
+1 0 0 1 40 752 Tm
+11 TL
+(SAMPLE   NOT LIVE FINANCIALS   FOR INTERNAL DEMO ONLY) Tj
+T*
+(Legal name   Halcyon Device Services, Inc.) Tj
+T*
+(d/b/a   Halcyon Device Services) Tj
+T*
+(Entity   Halcyon Device Services, Inc.) Tj
+T*
+(HQ   5601 NW 72nd Street, Suite 3, Warr Acres, OK 73132) Tj
+T*
+(Statement   Consolidated statement of operations \(income statement / P&L\)) Tj
+T*
+(Period   Year ended December 31    2025) Tj
+T*
+(Basis   Unaudited internal reporting pack) Tj
+T*
+(Currency   USD) Tj
+T*
+(Line   FY2024   FY2025) Tj
+T*
+(Net program revenue   $35,100,000   $38,000,000) Tj
+T*
+(Cost of services ? field technicians parts and vendors   -$21,400,000   -$22,800,000) Tj
+T*
+(Gross profit   $13,700,000   $15,200,000) Tj
+T*
+(Selling general and administrative   -$8,800,000   -$9,400,000) Tj
+T*
+(Software and platform   -$1,100,000   -$1,300,000) Tj
+T*
+(EBITDA   $3,800,000   $4,500,000) Tj
+T*
+(Depreciation and amortization   -$720,000   -$800,000) Tj
+T*
+(Operating income   $3,080,000   $3,700,000) Tj
+T*
+(Interest expense   -$380,000   -$400,000) Tj
+T*
+(Income before tax   $2,700,000   $3,300,000) Tj
+T*
+(Income tax expense   -$650,000   -$800,000) Tj
+T*
+(Net income   $2,050,000   $2,500,000) Tj
+T*
+(Key figures for report card   Value) Tj
+T*
+(Revenue   $38,000,000) Tj
+T*
+(EBITDA   $4,500,000) Tj
+T*
+(Note   SAMPLE figures for ABC Insurance Report Card intake testing. Not audited. Not live Halcyon Device Servi) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Title (Halcyon-SAMPLE-P&L-FY2025) /Producer (report-card sample generator) >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+0000001800 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 6 0 R >>
+startxref
+1897
+%%EOF

@@ -1,0 +1,15 @@
+SAMPLE,NOT LIVE FINANCIALS,FOR INTERNAL DEMO ONLY,,,,
+Legal name,"Halcyon Device Services, Inc.",,,,,
+d/b/a,Halcyon Device Services,,,,,
+Statement,Schedule of insurance,,,,,
+Period,Effective January 1,2026,,,,
+Line,Carrier,AM Best,Limit occurrence,Limit aggregate,Retention,Premium
+General liability,Chubb,A++,1000000,2000000,10000,72000
+Commercial auto,Chubb,A++,1000000,1000000,10000,156000
+Workers compensation,Chubb,A++,1000000,1000000,0,188000
+Umbrella / excess,Chubb,A++,5000000,5000000,10000,62000
+Inland marine / tools,Chubb,A++,150000,150000,5000,9000
+Tech E&O,Chubb,A++,2000000,2000000,25000,48000
+Cyber,Chubb,A++,2000000,2000000,25000,51000
+Directors & officers,Chubb,A++,5000000,5000000,25000,36000
+Crime,Chubb,A++,1000000,1000000,10000,11000

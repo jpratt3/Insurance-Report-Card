@@ -1,0 +1,279 @@
+[
+  {
+    "id": "northbay",
+    "archetype": "clinics",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 94,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 7,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 2,
+    "provisional": false
+  },
+  {
+    "id": "halcyon",
+    "archetype": "field_software",
+    "letter": "B",
+    "letterFromMath": "B",
+    "rawTotal": 88,
+    "knockouts": [],
+    "pillars": {
+      "limits": 22,
+      "gaps": 15,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 6,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 5,
+    "provisional": false
+  },
+  {
+    "id": "emberline",
+    "archetype": "saas",
+    "letter": "C",
+    "letterFromMath": "C",
+    "rawTotal": 76,
+    "knockouts": [],
+    "pillars": {
+      "limits": 13,
+      "gaps": 15,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 6,
+      "compliance": 10,
+      "cost": 7
+    },
+    "flagCount": 9,
+    "provisional": true
+  },
+  {
+    "id": "lantern",
+    "archetype": "nonprofit",
+    "letter": "D",
+    "letterFromMath": "A",
+    "rawTotal": 96,
+    "knockouts": [
+      "retro"
+    ],
+    "pillars": {
+      "limits": 25,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 9,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 2,
+    "provisional": false
+  },
+  {
+    "id": "stillwater",
+    "archetype": "holdco",
+    "letter": "B",
+    "letterFromMath": "B",
+    "rawTotal": 88,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 20,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 7,
+      "compliance": 8,
+      "cost": 3
+    },
+    "flagCount": 2,
+    "provisional": false
+  },
+  {
+    "id": "cedarpath",
+    "archetype": "home_health",
+    "letter": "F",
+    "letterFromMath": "F",
+    "rawTotal": 58,
+    "knockouts": [
+      "auto",
+      "retro"
+    ],
+    "pillars": {
+      "limits": 13,
+      "gaps": 7,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 0,
+      "compliance": 6,
+      "cost": 7
+    },
+    "flagCount": 14,
+    "provisional": true
+  },
+  {
+    "id": "riverbend",
+    "archetype": "home_health",
+    "letter": "D",
+    "letterFromMath": "B",
+    "rawTotal": 81,
+    "knockouts": [
+      "retro"
+    ],
+    "pillars": {
+      "limits": 23,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 6,
+      "compliance": 3,
+      "cost": 7
+    },
+    "flagCount": 7,
+    "provisional": false
+  },
+  {
+    "id": "vantage",
+    "archetype": "imaging",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 96,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 9,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 1,
+    "provisional": false
+  },
+  {
+    "id": "brightleaf",
+    "archetype": "home_health",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 94,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 7,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 2,
+    "provisional": false
+  },
+  {
+    "id": "ironcreek",
+    "archetype": "energy",
+    "letter": "D",
+    "letterFromMath": "A",
+    "rawTotal": 92,
+    "knockouts": [
+      "tower"
+    ],
+    "pillars": {
+      "limits": 23,
+      "gaps": 20,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 4,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 3,
+    "provisional": false
+  },
+  {
+    "id": "claymore",
+    "archetype": "saas",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 96,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 20,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 10,
+      "compliance": 10,
+      "cost": 6
+    },
+    "flagCount": 1,
+    "provisional": false
+  },
+  {
+    "id": "sendwell",
+    "archetype": "saas",
+    "letter": "D",
+    "letterFromMath": "C",
+    "rawTotal": 71,
+    "knockouts": [
+      "retro"
+    ],
+    "pillars": {
+      "limits": 13,
+      "gaps": 11,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 6,
+      "compliance": 10,
+      "cost": 6
+    },
+    "flagCount": 10,
+    "provisional": true
+  },
+  {
+    "id": "scholarloop",
+    "archetype": "saas",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 96,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 17,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 9,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 1,
+    "provisional": false
+  },
+  {
+    "id": "tallyport",
+    "archetype": "saas",
+    "letter": "A",
+    "letterFromMath": "A",
+    "rawTotal": 100,
+    "knockouts": [],
+    "pillars": {
+      "limits": 25,
+      "gaps": 20,
+      "retentions": 15,
+      "carrier": 10,
+      "claims": 10,
+      "compliance": 10,
+      "cost": 10
+    },
+    "flagCount": 0,
+    "provisional": false
+  }
+]

@@ -1,0 +1,90 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1344 >>
+stream
+BT
+/F1 9 Tf
+1 0 0 1 40 752 Tm
+11 TL
+(SAMPLE   NOT LIVE FINANCIALS   FOR INTERNAL DEMO ONLY) Tj
+T*
+(Legal name   Halcyon Device Services, Inc.) Tj
+T*
+(d/b/a   Halcyon Device Services) Tj
+T*
+(Entity   Halcyon Device Services, Inc.) Tj
+T*
+(HQ   5601 NW 72nd Street, Suite 3, Warr Acres, OK 73132) Tj
+T*
+(Statement   Consolidated statement of cash flows) Tj
+T*
+(Period   Year ended December 31    2025) Tj
+T*
+(Basis   Unaudited internal reporting pack) Tj
+T*
+(Currency   USD) Tj
+T*
+(Line   FY2024   FY2025) Tj
+T*
+(Net income   $2,050,000   $2,500,000) Tj
+T*
+(Depreciation and amortization   $720,000   $800,000) Tj
+T*
+(Change in working capital   -$410,000   -$180,000) Tj
+T*
+(Cash from operations   $2,360,000   $3,120,000) Tj
+T*
+(Capital expenditures   -$640,000   -$900,000) Tj
+T*
+(Cash from investing   -$640,000   -$900,000) Tj
+T*
+(Debt borrowings repayments net   -$220,000   -$220,000) Tj
+T*
+(Member distributions   -$900,000   -$1,400,000) Tj
+T*
+(Cash from financing   -$1,120,000   -$1,620,000) Tj
+T*
+(Net change in cash   $600,000   $600,000) Tj
+T*
+(Cash beginning of year   $1,800,000   $2,400,000) Tj
+T*
+(Cash end of year   $2,400,000   $3,000,000) Tj
+T*
+(Key figures for report card   Value) Tj
+T*
+(Cash end of year   $3,000,000) Tj
+T*
+(Note   SAMPLE ? not live Halcyon Device Services or ABC results. Optional PM setup slot.) Tj
+T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Title (Halcyon-SAMPLE-Cash-Flow-FY2025) /Producer (report-card sample generator) >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+0000001707 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info 6 0 R >>
+startxref
+1810
+%%EOF
