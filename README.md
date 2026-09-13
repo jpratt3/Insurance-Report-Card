@@ -1,16 +1,14 @@
 # Insurance Report Card
 
 A desk that grades a private-equity book's commercial insurance programs on a
-0–100 scale and hands the portfolio manager the three sentences worth raising on
+0–100 scale and hands the portfolio manager the points worth raising on
 the next board call.
 
 Two audiences sit on **one URL, one backend, two UIs**. A portfolio manager
-creates a company by dropping its financial statements in, sets the bar
-(cash / EBITDA / revenue, then limits and SIR), and gets a letter grade with the
-reasoning behind it. The company's own finance team signs in to the same site and
-sees a receipt and a missing-items checklist — never the grade. That asymmetry is
-the point: the score is a diligence artifact for the sponsor, not a report card
-you hand the portco CEO.
+creates a company by dropping its financial statements in & sets the bar
+(cash / EBITDA / revenue, then limits and SIR) that feeds into the rubric. Then 
+the company's finance team signs in to the site created for the - prefilled with
+what is required from them.
 
 Runs entirely on your machine against a JSON file. No database, and no external
 service unless you opt into the model calls — the scoring engine itself never
@@ -24,9 +22,9 @@ npm install && npm run dev
 
 ## Walkthrough
 
-One URL, two desks. The screenshots below follow a single company — Halcyon Device
-Services, a field-service business with a software layer — from creation to letter
-grade. Every figure in them is invented.
+One URL that leads to two desks. The screenshots below demonstrate the workflow
+from company creation to reciept of letter grade. Here you follow a fictional 
+company: Halcyon Device Services, a field-service business with a software layer.
 
 ### 1. Two doors, one login
 
