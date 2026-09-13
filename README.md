@@ -22,6 +22,120 @@ npm install && npm run dev
 
 ---
 
+## Walkthrough
+
+One URL, two desks. The screenshots below follow a single company — Halcyon Device
+Services, a field-service business with a software layer — from creation to letter
+grade. Every figure in them is invented.
+
+### 1. Two doors, one login
+
+![Login](docs/walkthrough/01-login.png)
+
+There is no separate company app. The portfolio manager and the portfolio company's
+finance team sign in at the same address and the session decides what exists: the PM
+gets a book, a rubric and a grade, the company gets a checklist. `middleware.ts`
+enforces the split on every request, so a CFO session that types `/pm/halcyon`
+straight into the address bar does not get a redirect *after* rendering — it never
+reaches the route.
+
+### 2. The PM creates the company
+
+![Add company](docs/walkthrough/05-add-company.png)
+
+PM setup is financials only. Pick an industry template, drop in whatever statements
+already exist, and `financials.ts` reads cash, EBITDA and revenue off them. The three
+figures here — $3,000,000 cash, $4,500,000 EBITDA, $38,000,000 revenue — are parsed,
+not typed, and each one carries the row label and filename it came from so the
+autofill shows its work rather than dropping a number into a box.
+
+Nothing about policies is asked for at this stage, because the PM does not have them.
+The CFO credentials are minted here too, prefilled from the company name with a
+generated passphrase, and that URL plus those credentials is the whole handoff.
+
+Max SIR is never typed. It falls out of the balance sheet:
+
+```
+maxSir  = clamp(min(1% cash, 5% EBITDA), $5k, ceiling)
+```
+
+$3M cash and $4.5M EBITDA give `min($30,000, $225,000)` — the liquidity test binds
+tighter than the earnings test, and $30,000 is what appears on the desk.
+
+### 3. The book
+
+![PM book](docs/walkthrough/02-pm-book.png)
+
+Every company on one line: template, derived retention, what intake stage it is at,
+and the letter. With fifteen companies this is the screen that says which board call
+needs a slide.
+
+### 4. The company fills the gaps — and never sees the grade
+
+![CFO portal](docs/walkthrough/06-cfo-portal.png)
+
+The finance team gets a receipt and a missing-items checklist. One schedule of
+insurance was dropped in and `soi.ts` recognised **nine distinct policy lines** inside
+it, each now showing its carrier and limit with a slot to attach the binder. Without
+an SOI the same policies go into a general endorsements slot one at a time.
+
+What is still outstanding is in red, and it is specific: loss runs, the workers-comp
+EMR worksheet, a customer or landlord COI. Below that, an exposure pack has been
+scanned and only the fields the parser was confident about are filled — revenue, cash,
+EBITDA, max deductible — leaving TIV, contractual minimums and the experience mod
+blank rather than guessed.
+
+**There is no grade anywhere on this page, and no route that would show one.** The
+book endpoint answers a company session with `403 PM only`, and the one company
+endpoint a CFO can reach returns exposures, policies and documents with no score,
+letter or pillar field in the payload at all — the grade is computed during the PM
+page render and never crosses the wire. `/pm/...` typed into the address bar is
+redirected by `middleware.ts` before the route runs.
+
+That asymmetry is the design, not a permission oversight: the score is a diligence
+artifact for the sponsor, not a report card handed to the company being diligenced.
+A CFO who could see the letter would optimise against the rubric instead of sending
+the documents — which is the same failure the withheld-data rule exists to prevent,
+one level up.
+
+### 5. The letter comes back
+
+![PM company page](docs/walkthrough/03-pm-company-grade.png)
+
+**80, a B** — and the interesting part is the two pillars that did not score.
+
+Limit adequacy is 24/25 and coverage gaps 20/20: the program itself is close to
+right for the archetype. But **loss history is 1/10** and **contract / COI compliance
+is 0/10**, and neither is a statement that this company has bad claims or bad
+contracts. It is the engine refusing to score absent evidence as clean. The banner
+says so directly — *scored on incomplete evidence... withheld inputs score as
+unverified, never as clean* — and the run is stamped **provisional**.
+
+That 1/10 is deliberate. An earlier version scored a missing WC experience mod at
+7/10, which made silence the highest-scoring answer and gave a CFO a reason to stop
+sending the worksheet. A reported mod of 1.25 now beats no mod at all.
+
+The talking points underneath are what the pillar scores actually mean out loud —
+inland marine at $150,000 against a $250,000 requirement, no loss runs, GL missing
+additional insured, primary & non-contributory, and waiver of subrogation. That is the
+broker conversation, itemised.
+
+On the right, the bar the PM set, and **Ask me a question**, which reads the
+financials and the house rubric and proposes goal changes. Proposals are staged into
+the form; nothing is written until Save bar is pressed, and the model is never allowed
+near the score.
+
+### 6. The rubric is inspectable
+
+![Rubric](docs/walkthrough/04-rubric.png)
+
+Seven pillars, their caps, the letter bands, and the eight archetypes, readable inside
+the app. A grade nobody can audit is a broker opinion with extra steps — the point of
+a rubric is that the PM can check the arithmetic, and that the same seven pillars
+produced every other letter in the book.
+
+---
+
 ## Why a rubric rather than a broker opinion
 
 A broker's read on a program is one person's judgment, delivered verbally, and it
