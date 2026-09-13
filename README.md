@@ -5,13 +5,13 @@ A desk that grades a private-equity book's commercial insurance programs on a
 the next board call.
 
 Two audiences sit on **one URL, one backend, two UIs**. A portfolio manager
-creates a company by dropping its financial statements in & sets the bar
-(cash / EBITDA / revenue, then limits and SIR) that feeds into the rubric. Then 
-the company's finance team signs in to the site created for the - prefilled with
+creates a company by dropping its financial statements in and sets the bar
+(cash / EBITDA / revenue, then limits and SIR) that feeds into the rubric. Then
+the company's finance team signs in to the site created for them, prefilled with
 what is required from them.
 
 Runs entirely on your machine against a JSON file. No database, and no external
-service unless you opt into the model calls — the scoring engine itself never
+service unless you opt into the model calls. The scoring engine itself never
 makes one.
 
 ```bash
@@ -23,7 +23,7 @@ npm install && npm run dev
 ## Walkthrough
 
 One URL that leads to two desks. The screenshots below demonstrate the workflow
-from company creation to reciept of letter grade. Here you follow a fictional 
+from company creation to receipt of letter grade. Here you follow a fictional
 company: Halcyon Device Services, a field-service business with a software layer.
 
 ### 1. Two doors, one login
@@ -34,8 +34,8 @@ There is no separate company app. The portfolio manager and the portfolio compan
 finance team sign in at the same address and the session decides what exists: the PM
 gets a book, a rubric and a grade, the company gets a checklist. `middleware.ts`
 enforces the split on every request, so a CFO session that types `/pm/halcyon`
-straight into the address bar does not get a redirect *after* rendering — it never
-reaches the route.
+straight into the address bar never reaches the route. The redirect happens before
+the page renders, not after.
 
 ### 2. The PM creates the company
 
@@ -43,13 +43,13 @@ reaches the route.
 
 PM setup is financials only. Pick an industry template, drop in whatever statements
 already exist, and `financials.ts` reads cash, EBITDA and revenue off them. The three
-figures here — $3,000,000 cash, $4,500,000 EBITDA, $38,000,000 revenue — are parsed,
-not typed, and each one carries the row label and filename it came from so the
-autofill shows its work rather than dropping a number into a box.
+figures here ($3,000,000 cash, $4,500,000 EBITDA, $38,000,000 revenue) are parsed
+rather than typed, and each one carries the row label and filename it came from, so
+the autofill shows its work instead of dropping a number into a box.
 
 Nothing about policies is asked for at this stage, because the PM does not have them.
 The CFO credentials are minted here too, prefilled from the company name with a
-generated passphrase, and that URL plus those credentials is the whole handoff.
+generated passphrase. That URL plus those credentials is the whole handoff.
 
 Max SIR is never typed. It falls out of the balance sheet:
 
@@ -57,18 +57,10 @@ Max SIR is never typed. It falls out of the balance sheet:
 maxSir  = clamp(min(1% cash, 5% EBITDA), $5k, ceiling)
 ```
 
-$3M cash and $4.5M EBITDA give `min($30,000, $225,000)` — the liquidity test binds
-tighter than the earnings test, and $30,000 is what appears on the desk.
+$3M cash and $4.5M EBITDA give `min($30,000, $225,000)`. The liquidity test binds
+tighter than the earnings test, so $30,000 is what appears on the desk.
 
-### 3. The book
-
-![PM book](docs/walkthrough/02-pm-book.png)
-
-Every company on one line: template, derived retention, what intake stage it is at,
-and the letter. With fifteen companies this is the screen that says which board call
-needs a slide.
-
-### 4. The company fills the gaps — and never sees the grade
+### 3. The company fills the gaps, and never sees the grade
 
 ![CFO portal](docs/walkthrough/06-cfo-portal.png)
 
@@ -79,44 +71,52 @@ an SOI the same policies go into a general endorsements slot one at a time.
 
 What is still outstanding is in red, and it is specific: loss runs, the workers-comp
 EMR worksheet, a customer or landlord COI. Below that, an exposure pack has been
-scanned and only the fields the parser was confident about are filled — revenue, cash,
-EBITDA, max deductible — leaving TIV, contractual minimums and the experience mod
+scanned and only the fields the parser was confident about are filled (revenue, cash,
+EBITDA, max deductible), leaving TIV, contractual minimums and the experience mod
 blank rather than guessed.
 
 **There is no grade anywhere on this page, and no route that would show one.** The
 book endpoint answers a company session with `403 PM only`, and the one company
 endpoint a CFO can reach returns exposures, policies and documents with no score,
-letter or pillar field in the payload at all — the grade is computed during the PM
+letter or pillar field in the payload at all. The grade is computed during the PM
 page render and never crosses the wire. `/pm/...` typed into the address bar is
 redirected by `middleware.ts` before the route runs.
 
-That asymmetry is the design, not a permission oversight: the score is a diligence
+That asymmetry is the design, not a permission oversight. The score is a diligence
 artifact for the sponsor, not a report card handed to the company being diligenced.
 A CFO who could see the letter would optimise against the rubric instead of sending
-the documents — which is the same failure the withheld-data rule exists to prevent,
-one level up.
+the documents, which is the same failure the withheld-data rule prevents one level
+down.
+
+### 4. The book
+
+![PM book](docs/walkthrough/02-pm-book.png)
+
+Once the company has filed, the book carries a letter. Every company sits on one
+line: template, derived retention, what intake stage it is at, and the grade. With
+fifteen companies this is the screen that says which board call needs a slide.
 
 ### 5. The letter comes back
 
 ![PM company page](docs/walkthrough/03-pm-company-grade.png)
 
-**80, a B** — and the interesting part is the two pillars that did not score.
+**80, a B.** The two pillars that did not score are the ones worth reading.
 
-Limit adequacy is 24/25 and coverage gaps 20/20: the program itself is close to
+Limit adequacy is 24/25 and coverage gaps 20/20, so the program itself is close to
 right for the archetype. But **loss history is 1/10** and **contract / COI compliance
 is 0/10**, and neither is a statement that this company has bad claims or bad
 contracts. It is the engine refusing to score absent evidence as clean. The banner
-says so directly — *scored on incomplete evidence... withheld inputs score as
-unverified, never as clean* — and the run is stamped **provisional**.
+says so directly, *scored on incomplete evidence... withheld inputs score as
+unverified, never as clean*, and the run is stamped **provisional**.
 
 That 1/10 is deliberate. An earlier version scored a missing WC experience mod at
 7/10, which made silence the highest-scoring answer and gave a CFO a reason to stop
 sending the worksheet. A reported mod of 1.25 now beats no mod at all.
 
-The talking points underneath are what the pillar scores actually mean out loud —
-inland marine at $150,000 against a $250,000 requirement, no loss runs, GL missing
-additional insured, primary & non-contributory, and waiver of subrogation. That is the
-broker conversation, itemised.
+The talking points underneath are the pillar scores stated out loud: inland marine at
+$150,000 against a $250,000 requirement, no loss runs, GL missing additional insured,
+primary & non-contributory, and waiver of subrogation. That is the broker
+conversation, itemised.
 
 On the right, the bar the PM set, and **Ask me a question**, which reads the
 financials and the house rubric and proposes goal changes. Proposals are staged into
@@ -128,9 +128,9 @@ near the score.
 ![Rubric](docs/walkthrough/04-rubric.png)
 
 Seven pillars, their caps, the letter bands, and the eight archetypes, readable inside
-the app. A grade nobody can audit is a broker opinion with extra steps — the point of
-a rubric is that the PM can check the arithmetic, and that the same seven pillars
-produced every other letter in the book.
+the app. A grade nobody can audit is just a broker opinion with extra steps. The PM
+can check the arithmetic here, and confirm that the same seven pillars produced every
+other letter in the book.
 
 ---
 
@@ -139,9 +139,10 @@ produced every other letter in the book.
 A broker's read on a program is one person's judgment, delivered verbally, and it
 does not compare across a book. A rubric does three things that judgment doesn't:
 
-- **It is deterministic.** `src/lib/score.ts` is pure over the company record —
-  same inputs, same letter, every time. `npm run score:snapshot` pins the output
-  so a rubric change that moves a grade shows up as a diff rather than a surprise.
+- **It is deterministic.** `src/lib/score.ts` is pure over the company record, so
+  the same inputs give the same letter every time. `npm run score:snapshot` pins the
+  output so a rubric change that moves a grade shows up as a diff rather than a
+  surprise.
 - **It compares.** Fourteen companies scored on the same seven pillars rank
   against each other. One broker's memo about one company does not.
 - **It separates "bad" from "unknown".** A program that looks clean because the
@@ -153,7 +154,7 @@ does not compare across a book. A rubric does three things that judgment doesn't
 | Pillar | Max | What moves it |
 |---|---|---|
 | **Limit adequacy vs exposures** | 25 | Per-line limit against `max(archetype band, PM goal, contractual minimum)`. Full credit at the requirement, 55% at half of it, 25% for a token limit, zero for absent. |
-| **Coverage gaps and weak terms** | 20 | Starts at 20; −4 per required line missing. Also reads cyber sublimits — social-engineering below the larger of $250k or the company's largest wire, BI waiting periods over 12 hours. |
+| **Coverage gaps and weak terms** | 20 | Starts at 20; −4 per required line missing. Also reads cyber sublimits: social-engineering below the larger of $250k or the company's largest wire, BI waiting periods over 12 hours. |
 | **Deductibles / SIRs vs tolerance** | 15 | Retentions against the tolerance cap, graded by *how far* over: >3× tolerance drops to 4 points, >1.5× to 8. |
 | **Carrier quality** | 10 | AM Best of the *weakest* carrier on the program, against the PM's floor. |
 | **Loss history** | 10 | Split 4 evidence / 6 performance. See below. |
@@ -165,7 +166,7 @@ does not compare across a book. A rubric does three things that judgment doesn't
 ### Knockouts cap the letter
 
 Six conditions are not point deductions, because a program with one of them is
-not a B-minus program — it is broken in a way arithmetic will paper over.
+not a B-minus program. It is broken in a way arithmetic will paper over.
 
 | Knockout | Trigger |
 |---|---|
@@ -185,27 +186,27 @@ both the arithmetic and the override.
 The claims pillar is the one place where naïve scoring creates a perverse
 incentive, and it is worth being explicit about.
 
-An earlier version scored a missing WC experience mod at 7 of 10 — better than a
+An earlier version scored a missing WC experience mod at 7 of 10, better than a
 reported mod of 1.10. That makes silence the highest-scoring answer, and a CFO who
 noticed would stop sending the worksheet. The pillar now splits: 4 points for
 having loss runs on file at all, 6 for the mod itself, and an absent mod scores
-**1** (3 where WC is not the economic exposure — SaaS, holdco, nonprofit). A
+**1** (3 where WC is not the economic exposure, such as SaaS, holdco, nonprofit). A
 reported mod of 1.25 still beats no mod at all.
 
 The same instinct runs through the cost pillar. Premium far *below* the peer band
-does not score as efficiency — spending 0.4% of revenue against a 2% band almost
+does not score as efficiency. Spending 0.4% of revenue against a 2% band almost
 always means lines or limits are missing, so it caps at 6 and flags.
 
 ### Data confidence sits next to the letter
 
 Every run returns a `dataConfidence` block: documents received against documents
-required, and the named list of inputs the engine had to treat as unverified — no
-policies extracted, no loss runs, no mod, no revenue, no cash or EBITDA, no years
-in business. A run is marked **provisional** below 60% document coverage or with
-three or more unverified inputs.
+required, and the named list of inputs the engine had to treat as unverified. Those
+are no policies extracted, no loss runs, no mod, no revenue, no cash or EBITDA, no
+years in business. A run is marked **provisional** below 60% document coverage or
+with three or more unverified inputs.
 
-That is the difference between a clean B and a B resting on three guesses, and
-without it the letter is more confident than the evidence behind it.
+That is the difference between a clean B and a B resting on three guesses. Without
+it the letter is more confident than the evidence behind it.
 
 ## Archetypes
 
@@ -238,9 +239,9 @@ tighter wins.
 Every benchmark number in `src/data/benchmarks/*.json` is stamped with where it
 came from and how far to trust it:
 
-- **`sourced`** — read off a cited source and re-verified against it
-- **`derived`** — computed from sourced inputs, or an engine convention
-- **`estimated`** — practitioner judgment; defensible, but not evidence
+- **`sourced`**: read off a cited source and re-verified against it
+- **`derived`**: computed from sourced inputs, or an engine convention
+- **`estimated`**: practitioner judgment, defensible but not evidence
 
 Nothing may be promoted to `sourced` without a `sourceUrl` that actually contains
 the value, and `npm run benchmarks:check` enforces that and prints the split:
@@ -286,7 +287,7 @@ PM setup                            CFO portal
 ```
 
 **Extraction is layered, and the cheap layer runs first.** `soi.ts` reads CSV,
-XLSX (unzipping the sheet XML directly — no library), SpreadsheetML, and PDF text
+XLSX (unzipping the sheet XML directly, no library), SpreadsheetML, and PDF text
 streams, then matches line names through an alias table: `medmal`, `med-mal`,
 `malpractice` and `professional` all resolve to `professional`; `HNOA` resolves
 separately from `auto`, because the score treats them as one line but the program
@@ -294,7 +295,7 @@ does not.
 
 `financials.ts` runs a priority-ordered rule table against statement rows, so "Net
 program revenue" beats a bare "Revenue", plus a reject list for rows that look
-right and are the wrong number — *EBITDA margin*, *deferred revenue*, *change in
+right and are the wrong number: *EBITDA margin*, *deferred revenue*, *change in
 cash*, *beginning cash*. It reads the `(in thousands)` / `(in millions)` header and
 multiplies accordingly.
 
@@ -318,7 +319,7 @@ digestSoi:        fromCsv  →  fromFreeText  →  fromLlm  →  none
 digestExposures:  fromText →  fromLlm (only if fewer than 2 fields landed)
 ```
 
-Each returns the `method` that produced the answer — `csv`, `text`, `llm`, `none` —
+Each returns the `method` that produced the answer (`csv`, `text`, `llm`, `none`),
 so a number parsed off a clean CSV is distinguishable from one a model inferred
 from PDF sludge. Uses `OPENAI_API_KEY` if set, falls back to `ANTHROPIC_API_KEY`,
 and returns empty rather than throwing if neither is present.
@@ -326,7 +327,7 @@ and returns empty rather than throwing if neither is present.
 **Advice is a first-class feature.** `POST /api/companies/[id]/advise` is the PM's
 **Ask me a question** box. It hands Claude the company's financials, the bar as
 currently set, the house rubric including the max-SIR formula and archetype bands,
-and the policies on file — then asks for prose plus a structured goal proposal
+and the policies on file, then asks for prose plus a structured goal proposal
 validated against a Zod schema.
 
 The interesting constraint there is `null`. Every goal field is nullable, and the
@@ -357,7 +358,7 @@ Sign in at `/login`. The PM credentials are in `src/lib/auth.ts`; CFO credential
 set by the PM on the Add company screen and are per-company.
 
 ```bash
-npm run seed          # empty book — the normal starting state
+npm run seed          # empty book, the normal starting state
 npm run seed:sample   # three-company SAMPLE book
 ```
 
@@ -368,8 +369,8 @@ cp .env.example .env.local    # then set ANTHROPIC_API_KEY (or OPENAI_API_KEY)
 ```
 
 `/advise` requires `ANTHROPIC_API_KEY` specifically; extraction takes either and
-prefers OpenAI when both are set. Restart the dev server after setting one — Next
-reads env at boot.
+prefers OpenAI when both are set. Restart the dev server after setting one, because
+Next reads env at boot.
 
 ### Verification
 
@@ -379,7 +380,7 @@ npm run verify
 
 Runs four things: `tsc --noEmit`, the benchmark provenance validator, the
 financial-extraction check against the sample statements, and the scoring snapshot.
-The snapshot is the one that matters — it re-scores a fixed book and diffs against
+The snapshot is the one that matters. It re-scores a fixed book and diffs against
 `scripts/scoring.snapshot.json`, so any rubric edit that moves a grade has to be
 acknowledged rather than discovered later.
 
@@ -388,7 +389,7 @@ acknowledged rather than discovered later.
 ```
 src/
   lib/
-    score.ts        the engine — pure, deterministic, 7 pillars + knockouts
+    score.ts        the engine: pure, deterministic, 7 pillars + knockouts
     rubric.ts       pillars, letter map, archetype goals, max-SIR formula
     benchmarks.ts   provenance-wrapped bands; loads src/data/benchmarks/*.json
     benchmarks.validate.ts   refuses `sourced` without a real sourceUrl
@@ -400,7 +401,7 @@ src/
     auth.ts         login resolution; session.ts is the cookie
   app/
     pm/             desk: book, company detail, goals, rubric reference
-    cfo/            portal: checklist, uploads, receipt — no grade
+    cfo/            portal: checklist, uploads, receipt, no grade
     api/            companies, documents, extract, advise, financials
   data/benchmarks/  line-bands · premium-bands · required-lines
 scripts/            benchmark, financial, and scoring-snapshot checks
@@ -413,9 +414,9 @@ State lives in `data/db.json`, created empty on first API call. Uploads land in
 ## About the data
 
 **Every company in this repository is invented, and so is every number attached
-to one.** The fourteen companies in `src/lib/seed-data.ts` — Northbay, Halcyon,
+to one.** The fourteen companies in `src/lib/seed-data.ts` (Northbay, Halcyon,
 Emberline, Lantern, Stillwater, Cedarpath, Riverbend, Vantage, Brightleaf,
-Ironcreek, Claymore, Sendwell, ScholarLoop, TallyPort — are fictional, as are
+Ironcreek, Claymore, Sendwell, ScholarLoop, TallyPort) are fictional, as are
 their locations and industries. The sample statements under `docs/` are labelled
 `SAMPLE, NOT LIVE FINANCIALS` in the files themselves.
 
@@ -423,11 +424,11 @@ This matters more than it might look. The seed book exists to exercise the rubri
 so it deliberately contains failing programs: a company graded **F**, two whose
 arithmetic lands in the 90s but whose letter is floored to **D** by a knockout, a
 1.41 experience mod, a tower with a hole in it. Those are claims no real business
-should have invented and attached to its name, which is why no real business is
-named anywhere in this repository — and why no contact, officer, or executive name
+should have invented and attached to its name. That is why no real business is
+named anywhere in this repository, and why no contact, officer, or executive name
 appears in the data at all.
 
-Carrier names are real — Chubb and its peers are public companies — and AM Best
+Carrier names are real, since Chubb and its peers are public companies, and AM Best
 ratings are public fact.
 
 ## Known limits
@@ -444,7 +445,7 @@ ratings are public fact.
   raw PDF and falls back to printable-ASCII scraping. It handles a generated
   statement and will not handle a scan. CSV and XLSX are the reliable paths.
 - **No policy-form reading.** The engine scores limits, retentions, carriers and
-  endorsements as *recorded* — it does not read policy wording, so an exclusion
+  endorsements as *recorded*. It does not read policy wording, so an exclusion
   that guts a line the engine counts as present is invisible to it.
 - **Single-writer storage.** `data/db.json` is read-modify-write with no locking.
   One desk, one user at a time.
